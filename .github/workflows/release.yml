@@ -29,7 +29,6 @@ jobs:
             - run: go version
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
-              uses: 
               env:
                 GOOS: ${{ matrix.goos }}
                 GOARCH: ${{ matrix.arch }}
