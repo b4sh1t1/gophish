@@ -1,7 +1,7 @@
 name: Build Gophish Release
 on:
     release:
-        types: [created]
+        types: [created,edited]
 
 jobs:
     build:
@@ -29,10 +29,10 @@ jobs:
             - run: go version
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
+              run: go build -o ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
               env:
                 GOOS: ${{ matrix.goos }}
                 GOARCH: ${{ matrix.arch }}
-              run: go build -o ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
