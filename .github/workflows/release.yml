@@ -21,6 +21,9 @@ jobs:
                     - os: macos-latest
                       goos: darwin
                       ext: ''
+                exclude:
+                    - os: macos-latest
+                      arch: '386'
         steps:
             - name: Set up Go
               uses: actions/setup-go@v2
