@@ -22,6 +22,8 @@ jobs:
                       goos: darwin
                       ext: ''
                 exclude:
+                    - os: windows-latest
+                      arch: '386'
                     - os: macos-latest
                       arch: '386'
         steps:
