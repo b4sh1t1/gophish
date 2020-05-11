@@ -5,7 +5,7 @@ on:
 
 jobs:
     build:
-        name: Build Windows
+        name: Build Binary
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -16,7 +16,7 @@ jobs:
                       goos: windows
                       ext: '.exe'
                     - os: ubuntu-latest
-                      goos: ubuntu
+                      goos: linux
                       ext: ''
                     - os: macos-latest
                       goos: darwin
@@ -41,6 +41,7 @@ jobs:
     package:
         name: Package Assets
         runs-on: ubuntu-latest
+        needs: build
         steps:
             - uses: actions/checkout@v2
             - uses: actions/download-artifact@v2
