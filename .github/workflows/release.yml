@@ -1,0 +1,68 @@
+name: Build Gophish Release
+on:
+    release:
+        types: [created]
+
+jobs:
+    build:
+        name: Build Windows
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest, macos-latest]
+                arch: ['386', amd64]
+                include:
+                    - os: windows-latest
+                      goos: windows
+                      ext: '.exe'
+                    - os: ubuntu-latest
+                      goos: ubuntu
+                      ext: ''
+                    - os: macos-latest
+                      goos: darwin
+                      ext: ''
+        steps:
+            - name: Set up Go
+              uses: actions/setup-go@v2
+              with:
+                go-version: 1.14
+            - run: go version
+            - uses: actions/checkout@v2
+            - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
+              uses: 
+              env:
+                GOOS: ${{ matrix.goos }}
+                GOARCH: ${{ matrix.arch }}
+              run: go build -o ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+            - name: Upload to artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                path: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+
+    package:
+        name: Package Assets
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/download-artifact@v2
+              with:
+                path: bin
+            - name: Package the assets into releases
+              run: |
+                for FILE in bin/*
+                do
+                    echo $FILE;
+                done
+            # - uses: Upload Releases to Artifacts
+            #   with:
+            #     # we don't use this yet
+            #     path: releases/
+    
+    # upload:
+    #     name: Upload to the Release
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/download-artifact@v2
+    #           with:
+    #             # Check on this
+    #             path: releases/
