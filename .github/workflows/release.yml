@@ -33,6 +33,7 @@ jobs:
               env:
                 GOOS: ${{ matrix.goos }}
                 GOARCH: ${{ matrix.arch }}
+                CGO_ENABLED: 1
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
