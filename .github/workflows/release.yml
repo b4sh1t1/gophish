@@ -44,7 +44,7 @@ jobs:
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
-                path: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+                name: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
 
     package:
         name: Package Assets
