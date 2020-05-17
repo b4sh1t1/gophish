@@ -1,7 +1,7 @@
 name: Build Gophish Release
 on:
     release:
-        types: [created,edited]
+        types: [created]
 
 jobs:
     build:
@@ -14,13 +14,13 @@ jobs:
                 include:
                     - os: windows-latest
                       goos: windows
-                      ext: '.exe'
+                      bin: 'gophish.exe'
                     - os: ubuntu-latest
                       goos: linux
-                      ext: ''
+                      bin: 'gophish'
                     - os: macos-latest
                       goos: darwin
-                      ext: ''
+                      bin: 'gophish'
                 exclude:
                     - os: windows-latest
                       arch: '386'
@@ -36,7 +36,7 @@ jobs:
               run: sudo apt-get update && sudo apt-get install -y gcc-multilib
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
-              run: go build -o ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+              run: go build -o ${{ matrix.bin }}
               env:
                 GOOS: ${{ matrix.goos }}
                 GOARCH: ${{ matrix.arch }}
@@ -44,7 +44,9 @@ jobs:
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
-                path: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+                name: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+                path: ${{ matrix.bin }}
+
 
     package:
         name: Package Assets
