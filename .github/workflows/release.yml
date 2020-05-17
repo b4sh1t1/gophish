@@ -44,7 +44,7 @@ jobs:
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
-                name: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
+                path: ${{ matrix.goos }}-${{ matrix.arch }}${{ matrix.ext }}
 
     package:
         name: Package Assets
@@ -57,10 +57,7 @@ jobs:
                 path: bin
             - name: Package the assets into releases
               run: |
-                for FILE in bin/*
-                do
-                    echo $FILE;
-                done
+                ls -alR bin/
             # - uses: Upload Releases to Artifacts
             #   with:
             #     # we don't use this yet
