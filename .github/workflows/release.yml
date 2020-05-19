@@ -15,15 +15,15 @@ jobs:
                     - os: windows-latest
                       goos: windows
                       bin: 'gophish.exe'
-                      release: 'gophish-${{ env.GITHUB_REF }}-windows'
+                      releaseos: windows
                     - os: ubuntu-latest
                       goos: linux
                       bin: 'gophish'
-                      release: 'gophish-${{ env.GITHUB_REF }}-linux'
+                      releaseos: linux
                     - os: macos-latest
                       goos: darwin
                       bin: 'gophish'
-                      release: 'gophish-${{ env.GITHUB_REF }}-osx'
+                      releaseos: osx
                 # Don't build windows-32bit due to missing MinGW dependencies
                 # Don't build osx-32bit due to eventual drop in Go support
                 exclude:
@@ -40,9 +40,9 @@ jobs:
             - if: matrix.os == 'ubuntu-latest'
               run: sudo apt-get update && sudo apt-get install -y gcc-multilib
             - if: matrix.arch == '386'
-              run: echo "::set-env name=RELEASE::${{ matrix.release}}-32bit"
+              run: echo "::set-env name=RELEASE::gophish-${{ env.GITHUB_REF}}-${{ matrix.releaseos}}-32bit"
             - if: matrix.arch == 'amd64'
-              run: echo "::set-env name=RELEASE::${{ matrix.release}}-64bit"
+              run: echo "::set-env name=RELEASE::gophish-${{ env.GITHUB_REF}}-${{ matrix.release}}-64bit"
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
               run: go build -o ${{ matrix.bin }}
