@@ -68,7 +68,25 @@ jobs:
                 path: bin
             - name: Package the assets into releases
               run: |
-                ls -alR bin/
+                for RELEASE in bin/*
+                do
+                  cd $RELEASE
+                  mkdir -p static/js/dist && cp -R ../../static/js/dist static/js/dist
+                  mkdir -p static/js/src/vendor && cp -R ../../static/js/src/vendor/ckeditor static/js/src/vendor/ckeditor
+                  mkdir -p static/css/dist && cp -R ../../static/css/dist static/css/dist
+                  mkdir -p static/images && cp -R ../../static/images static/images
+                  mkdir -p static/font && cp -R ../../static/font static/font
+                  mkdir -p static/db && cp -R ../../static/db static/db
+                  mkdir -p db && cp -R db db
+                  mkdir -p templates && cp -R templates templates
+                  cp README.md .
+                  cp VERSION .
+                  cp LICENSE .
+                  cp config.json .
+                  pwd
+                  ls -alR
+                  cd ../../
+                done
             # - uses: Upload Releases to Artifacts
             #   with:
             #     # we don't use this yet
