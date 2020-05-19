@@ -43,7 +43,7 @@ jobs:
             - if: matrix.arch == '386'
               run: echo "::set-env name=RELEASE::gophish-${GITHUB_REF/refs\/tags\//}-${{ matrix.releaseos}}-32bit"
             - if: matrix.arch == 'amd64'
-              run: echo "::set-env name=RELEASE::gophish-${GITHUB_REF/refs\/tags\//}-${{ matrix.release}}-64bit"
+              run: bash echo "::set-env name=RELEASE::gophish-${GITHUB_REF/refs\/tags\//}-${{ matrix.releaseos}}-64bit"
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
               run: go build -o ${{ matrix.bin }}
