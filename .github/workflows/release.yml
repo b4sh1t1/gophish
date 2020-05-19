@@ -77,12 +77,12 @@ jobs:
                   mkdir -p static/images && cp -R ../../static/images static/images
                   mkdir -p static/font && cp -R ../../static/font static/font
                   mkdir -p static/db && cp -R ../../static/db static/db
-                  mkdir -p db && cp -R db db
-                  mkdir -p templates && cp -R templates templates
-                  cp README.md .
-                  cp VERSION .
-                  cp LICENSE .
-                  cp config.json .
+                  mkdir -p db && cp -R ../../db db
+                  mkdir -p templates && cp -R ../../templates templates
+                  cp ../../README.md .
+                  cp ../../VERSION .
+                  cp ../../LICENSE .
+                  cp ../../config.json .
                   pwd
                   ls -alR
                   cd ../../
