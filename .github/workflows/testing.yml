@@ -11,3 +11,4 @@ jobs:
         steps:
             - run: dir C:\
             - run: dir C:\tools
+            - run: pacman -h
