@@ -23,7 +23,7 @@ jobs:
                     - os: macos-latest
                       goos: darwin
                       bin: 'gophish'
-                      release: 'gophish-${{ GITHUB_REF }}-osx'
+                      release: 'gophish-${{ github.ref }}-osx'
                 # Don't build windows-32bit due to missing MinGW dependencies
                 # Don't build osx-32bit due to eventual drop in Go support
                 exclude:
