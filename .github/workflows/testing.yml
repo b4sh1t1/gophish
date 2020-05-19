@@ -10,5 +10,4 @@ jobs:
                 arch: ['386', amd64]
         steps:
             - run: dir C:\
-            - run: dir C:\msys64
             - run: dir C:\tools
