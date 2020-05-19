@@ -66,7 +66,7 @@ jobs:
             - uses: actions/download-artifact@v2
               with:
                 path: bin
-            - name: Package the assets into releases
+            - name: Copy assets into releases
               run: |
                 for RELEASE in bin/*
                 do
@@ -83,14 +83,19 @@ jobs:
                   cp ../../VERSION .
                   cp ../../LICENSE .
                   cp ../../config.json .
-                  pwd
-                  ls -alR
                   cd ../../
                 done
-            # - uses: Upload Releases to Artifacts
-            #   with:
-            #     # we don't use this yet
-            #     path: releases/
+            - name: Archive Releases
+              run: |
+                for RELEASE in bin/*
+                do
+                  zip -r $RELEASE.zip *
+                done
+            - name: Upload to artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                name: releases
+                path: bin/*.zip
     
     # upload:
     #     name: Upload to the Release
