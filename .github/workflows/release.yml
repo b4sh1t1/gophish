@@ -15,11 +15,11 @@ jobs:
                     - os: windows-latest
                       goos: windows
                       bin: 'gophish.exe'
-                      release: 'gophish-${{ GITHUB_REF }}-windows'
+                      release: 'gophish-${{ github.ref }}-windows'
                     - os: ubuntu-latest
                       goos: linux
                       bin: 'gophish'
-                      release: 'gophish-${{ GITHUB_REF }}-linux'
+                      release: 'gophish-${{ github.ref }}-linux'
                     - os: macos-latest
                       goos: darwin
                       bin: 'gophish'
