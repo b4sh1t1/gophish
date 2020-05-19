@@ -15,15 +15,15 @@ jobs:
                     - os: windows-latest
                       goos: windows
                       bin: 'gophish.exe'
-                      release: 'gophish-${{ github.ref }}-windows'
+                      release: 'gophish-${{ env.GITHUB_REF }}-windows'
                     - os: ubuntu-latest
                       goos: linux
                       bin: 'gophish'
-                      release: 'gophish-${{ github.ref }}-linux'
+                      release: 'gophish-${{ env.GITHUB_REF }}-linux'
                     - os: macos-latest
                       goos: darwin
                       bin: 'gophish'
-                      release: 'gophish-${{ github.ref }}-osx'
+                      release: 'gophish-${{ env.GITHUB_REF }}-osx'
                 # Don't build windows-32bit due to missing MinGW dependencies
                 # Don't build osx-32bit due to eventual drop in Go support
                 exclude:
