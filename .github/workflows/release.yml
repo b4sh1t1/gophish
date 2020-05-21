@@ -108,10 +108,11 @@ jobs:
             # I would love to use @actions/upload-release-asset, but they don't
             # support wildcards in the asset path. Ref #9, #24, and #47
             - env:
-                RELEASE_URL: ${{ github.event.release.upload_url }}
+                UPLOAD_URL: ${{ github.event.release.upload_url }}
                 API_HEADER: "Accept: application/vnd.github.${API_VERSION}+json"
                 AUTH_HEADER: "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
               run: |
+                UPLOAD_URL=$(echo -n $UPLOAD_URL | sed s/\{.*//g)
                 for FILE in releases/*
                 do
                   echo "Uploading $FILE";
@@ -120,5 +121,5 @@ jobs:
                     -H "${API_HEADER}"
                     -H "Content-Type: $(file -b --mime-type $FILE)" \
                     --data-binary @$FILE \
-                    "${RELEASE_URL}?name=$(basename $FILE)";
+                    "${UPLOAD_URL}?name=$(basename $FILE)";
                 done
