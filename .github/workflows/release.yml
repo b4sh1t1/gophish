@@ -36,7 +36,6 @@ jobs:
               uses: actions/setup-go@v2
               with:
                 go-version: 1.14
-            - run: go version
             - if: matrix.os == 'ubuntu-latest'
               run: sudo apt-get update && sudo apt-get install -y gcc-multilib
             - if: matrix.arch == '386'
@@ -66,36 +65,36 @@ jobs:
             - uses: actions/download-artifact@v2
               with:
                 path: bin
-            - name: Copy assets into releases
+            - name: Package Releases
               run: |
-                for RELEASE in bin/*
+                mkdir releases;
+                for RELEASE_DIR in bin/*
                 do
-                  cd $RELEASE
-                  mkdir -p static/js/dist && cp -R ../../static/js/dist static/js/dist
-                  mkdir -p static/js/src/vendor && cp -R ../../static/js/src/vendor/ckeditor static/js/src/vendor/ckeditor
-                  mkdir -p static/css/dist && cp -R ../../static/css/dist static/css/dist
-                  mkdir -p static/images && cp -R ../../static/images static/images
-                  mkdir -p static/font && cp -R ../../static/font static/font
-                  mkdir -p static/db && cp -R ../../static/db static/db
-                  mkdir -p db && cp -R ../../db db
-                  mkdir -p templates && cp -R ../../templates templates
-                  cp ../../README.md .
-                  cp ../../VERSION .
-                  cp ../../LICENSE .
-                  cp ../../config.json .
-                  cd ../../
-                done
-            - name: Archive Releases
-              run: |
-                for RELEASE in bin/*
-                do
-                  zip -r $RELEASE.zip *
+                  echo "Creating release $RELEASE_DIR"
+                  for BINARY in $RELEASE_DIR/*
+                  do
+                    cp $BINARY .;
+                    zip -r releases/$RELEASE_DIR.zip \
+                      static/js/dist \
+                      static/js/src/vendor/ckeditor \
+                      static/css/dist \
+                      static/images \
+                      static/font \
+                      static/db \
+                      db \
+                      templates \
+                      README.md \
+                      VERSION \
+                      LICENSE \
+                      config.json;
+                    rm $BINARY;
+                  done
                 done
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
                 name: releases
-                path: bin/*.zip
+                path: releases/*.zip
     
     # upload:
     #     name: Upload to the Release
