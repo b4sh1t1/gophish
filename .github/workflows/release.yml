@@ -96,11 +96,28 @@ jobs:
                 name: releases
                 path: releases/*.zip
     
-    # upload:
-    #     name: Upload to the Release
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - uses: actions/download-artifact@v2
-    #           with:
-    #             # Check on this
-    #             path: releases/
+    upload:
+        name: Upload to the Release
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/download-artifact@v2
+              with:
+                name: releases
+                path: releases/
+            # I would love to use @actions/upload-release-asset, but they don't
+            # support wildcards in the asset path. Ref #9, #24, and #47
+            - env:
+                RELEASE_URL: ${{ github.event.release.upload_url }}
+                API_HEADER: "Accept: application/vnd.github.${API_VERSION}+json"
+                AUTH_HEADER: "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+              run: |
+                for FILE in releases/*
+                do
+                  echo "Uploading $FILE";
+                  curl \
+                    -H "${AUTH_HEADER}" \
+                    -H "${API_HEADER}"
+                    -H "Content-Type: $(file -b --mime-type $FILE)" \
+                    --data-binary @$FILE \
+                    "${RELEASE_URL}?name=$(basename $FILE)";
+                done
