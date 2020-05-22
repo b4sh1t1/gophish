@@ -121,9 +121,10 @@ jobs:
                 for FILE in releases/*
                 do
                   echo "Uploading ${FILE}";
-                  echo "curl \
-                    -H \"${API_HEADER}\"
-                    -H \"Content-Type: $(file -b --mime-type ${FILE})\" \
-                    --data-binary \"@${FILE}\" \
-                    \"${UPLOAD_URL}?name=$(basename $FILE)\"";
+                  curl \
+                    -H "${API_HEADER}" \
+                    -H "${AUTH_HEADER}" \
+                    -H "Content-Type: $(file -b --mime-type ${FILE})" \
+                    --data-binary "@${FILE}" \
+                    "${UPLOAD_URL}?name=$(basename $FILE)";
                 done
