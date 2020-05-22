@@ -139,7 +139,7 @@ jobs:
                 for FILE in releases/*
                 do
                   FILENAME=$(basename ${FILE})
-                  HASH=$(sha256sum ${FILENAME})
+                  HASH=$(sha256sum ${FILE})
                   HASH_TABLE="${HASH_TABLE}|${HASH}|${FILENAME}|"
                 done
                 echo "${HASH_TABLE}"
