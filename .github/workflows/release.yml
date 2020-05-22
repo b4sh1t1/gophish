@@ -109,10 +109,11 @@ jobs:
             # support wildcards in the asset path. Ref #9, #24, and #47
             - env:
                 UPLOAD_URL: ${{ github.event.release.upload_url }}
-                API_HEADER: "Accept: application/vnd.github.${API_VERSION}+json"
+                API_HEADER: "Accept: application/vnd.github.v3+json"
                 AUTH_HEADER: "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
               run: |
                 UPLOAD_URL=$(echo -n $UPLOAD_URL | sed s/\{.*//g)
+                echo "${UPLOAD_URL}?name=$(basename $FILE)"
                 for FILE in releases/*
                 do
                   echo "Uploading $FILE";
