@@ -120,11 +120,11 @@ jobs:
                 echo "$(file -b --mime-type $FILE)"
                 for FILE in releases/*
                 do
-                  echo "Uploading $FILE";
+                  echo "Uploading ${FILE}";
                   curl \
                     -H "${AUTH_HEADER}" \
                     -H "${API_HEADER}"
-                    -H "Content-Type: $(file -b --mime-type $FILE)" \
-                    --data-binary "@$FILE" \
+                    -H "Content-Type: $(file -b --mime-type ${FILE})" \
+                    --data-binary "@${FILE}" \
                     "${UPLOAD_URL}?name=$(basename $FILE)";
                 done
