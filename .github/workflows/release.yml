@@ -135,11 +135,11 @@ jobs:
                 RELEASE_URL: ${{ github.event.release.url }}
               run: |
                 HASH_TABLE="| SHA256 Hash | Filename |"
-                HASH_TABLE="${HASH_TABLE}\n-----\n"
+                HASH_TABLE="${HASH_TABLE}\n|-----|-----|\n"
                 for FILE in releases/*
                 do
                   FILENAME=$(basename ${FILE})
-                  HASH=$(sha256sum ${FILE})
+                  HASH=$(sha256sum ${FILE} | cut -d ' ' -f 1)
                   HASH_TABLE="${HASH_TABLE}|${HASH}|${FILENAME}|"
                 done
                 echo "${HASH_TABLE}"
