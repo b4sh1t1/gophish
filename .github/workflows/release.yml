@@ -117,6 +117,7 @@ jobs:
               run: |
                 UPLOAD_URL=$(echo -n $UPLOAD_URL | sed s/\{.*//g)
                 echo "${UPLOAD_URL}?name=$(basename releases/upload.txt)"
+                echo "$(file -b --mime-type $FILE)"
                 for FILE in releases/*
                 do
                   echo "Uploading $FILE";
