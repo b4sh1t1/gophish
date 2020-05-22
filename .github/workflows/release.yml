@@ -140,7 +140,7 @@ jobs:
                 do
                   FILENAME=$(basename ${FILE})
                   HASH=$(sha256sum ${FILENAME})
-                  HASH_TABLE="${HASH_TABLE}|${HASH}|${FILENAME}|
+                  HASH_TABLE="${HASH_TABLE}|${HASH}|${FILENAME}|"
                 done
                 echo "${HASH_TABLE}"
                 curl \
