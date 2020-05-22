@@ -117,14 +117,13 @@ jobs:
               run: |
                 UPLOAD_URL=$(echo -n $UPLOAD_URL | sed s/\{.*//g)
                 echo "${UPLOAD_URL}?name=$(basename releases/upload.txt)"
-                echo "$(file -b --mime-type $FILE)"
+                echo "$(file -b --mime-type releases/upload.txt)"
                 for FILE in releases/*
                 do
                   echo "Uploading ${FILE}";
-                  curl \
-                    -H "${AUTH_HEADER}" \
+                  echo 'curl \
                     -H "${API_HEADER}"
                     -H "Content-Type: $(file -b --mime-type ${FILE})" \
                     --data-binary "@${FILE}" \
-                    "${UPLOAD_URL}?name=$(basename $FILE)";
+                    "${UPLOAD_URL}?name=$(basename $FILE)"'';
                 done
