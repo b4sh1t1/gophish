@@ -77,7 +77,7 @@ jobs:
                   do
                     cp $BINARY .;
                     zip -r releases/$(basename $RELEASE_DIR).zip \
-                      ${BINARY} \
+                      $(basename ${BINARY}) \
                       static/js/dist \
                       static/js/src/vendor/ckeditor \
                       static/css/dist \
